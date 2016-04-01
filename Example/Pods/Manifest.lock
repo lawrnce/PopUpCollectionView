@@ -1,7 +1,7 @@
 PODS:
   - FLAnimatedImage (1.0.12)
   - Nimble (3.2.0)
-  - PopUpCollectionView (0.1.0)
+  - PopUpCollectionView (0.0.1)
   - Quick (0.9.1)
 
 DEPENDENCIES:
@@ -17,7 +17,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   Nimble: 703854335d181df169bbca9c97117b5cf8c47c1d
-  PopUpCollectionView: f4347e87215c94ba7bdd5dee7d2dbed1b686ed0c
+  PopUpCollectionView: 88efd6dba0577fc66e9031a87876e0aaa5777a81
   Quick: a5221fc21788b6aeda934805e68b061839bc3165
 
 COCOAPODS: 0.39.0

@@ -9,7 +9,7 @@
 import UIKit
 
 // MARK: - DELEGATE
-protocol PopUpCollectionViewDelegate {
+public protocol PopUpCollectionViewDelegate {
     
     //  Asks the delegate for the content size of the item at a given index path.
     //
@@ -23,7 +23,7 @@ protocol PopUpCollectionViewDelegate {
 }
 
 // MARK: - DATA SOURCE
-protocol PopUpCollectionViewDataSource {
+public protocol PopUpCollectionViewDataSource {
     
     //  Asks your data source the number of items in each section.
     //
@@ -41,19 +41,19 @@ protocol PopUpCollectionViewDataSource {
     func popUpCollectionView(popUpCollectionView: PopUpCollectionView, infoViewForItemAtIndexPath indexPath: NSIndexPath) -> UIView
 }
 
-class PopUpCollectionView: UIView {
+public class PopUpCollectionView: UIView {
 
     // MARK: - PUBLIC VARIABLES
     
     //  Delegate
     //
     //
-    var delegate: PopUpCollectionViewDelegate?
+    public var delegate: PopUpCollectionViewDelegate?
     
     //  Data Source
     //  Pop Up Collection View receives its data just like a normal collection view.
     //
-    var dataSource: PopUpCollectionViewDataSource?
+    public var dataSource: PopUpCollectionViewDataSource?
     
     
     // MARK: - PUBLIC METHODS
@@ -61,7 +61,7 @@ class PopUpCollectionView: UIView {
     //  Creates a PopUp Collection View with a given frame.
     //
     //
-    override init(frame: CGRect) {
+    override public init(frame: CGRect) {
         super.init(frame: frame)
         setup()
     }
@@ -69,7 +69,7 @@ class PopUpCollectionView: UIView {
     //  Creates a Pop Up Collection View with a Decoder.
     //  Usually via a nib file.
     //
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
@@ -77,7 +77,7 @@ class PopUpCollectionView: UIView {
     //  Reloads the collection view.
     //
     //
-    func reloadData() {
+    public func reloadData() {
         self.collectionView.reloadData()
     }
 
@@ -258,7 +258,7 @@ extension PopUpCollectionView: UICollectionViewDataSource {
     //  Asks the Data Source for the number of items for the collection view.
     //
     //
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard self.dataSource != nil else {
             return 0
         }
@@ -268,7 +268,7 @@ extension PopUpCollectionView: UICollectionViewDataSource {
     //  Asks the Data Source for the content view at a given index path and sets the
     //  collection view's cell.
     //
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(PopUpCollectionViewCellReuseIdentifier, forIndexPath: indexPath) as! PopUpCollectionViewCell
         let contentView = (dataSource?.popUpCollectionView(self, contentViewAtIndexPath: indexPath))
         cell.setContentView(contentView!)
@@ -281,7 +281,7 @@ extension PopUpCollectionView: UICollectionViewDelegate {
     //  When cell is selected, move the cell's content view to the
     //  content view of the Detail Pop Up View Controller's cell.
     //  Then animate the transition.
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
         if let cell = collectionView.cellForItemAtIndexPath(indexPath) {
             

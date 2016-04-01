@@ -1,16 +1,16 @@
 {
   "name": "PopUpCollectionView",
-  "version": "0.1.0",
-  "summary": "A short description of PopUpCollectionView.",
-  "description": "",
-  "homepage": "https://github.com/<GITHUB_USERNAME>/PopUpCollectionView",
+  "version": "0.0.1",
+  "summary": "A rethinking of the traditional collection view.",
+  "description": "Pop-Up Collection View is a redesign of a collection view with a vertical focus.",
+  "homepage": "https://github.com/lawrnce/PopUpCollectionView",
   "license": "MIT",
   "authors": {
     "Lawrence Tran": "lawrence@tran.com"
   },
   "source": {
-    "git": "https://github.com/<GITHUB_USERNAME>/PopUpCollectionView.git",
-    "tag": "0.1.0"
+    "git": "https://github.com/lawrnce/PopUpCollectionView.git",
+    "tag": "0.0.1"
   },
   "platforms": {
     "ios": "8.0"
