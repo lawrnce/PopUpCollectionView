@@ -107,7 +107,7 @@ Pop-Up Collection View is still in beta and should not be considered stable.
 
 ## Author
 
-Lawrence Tran, lawrence@tran.com
+Lawrence Tran
 
 ## License
 
