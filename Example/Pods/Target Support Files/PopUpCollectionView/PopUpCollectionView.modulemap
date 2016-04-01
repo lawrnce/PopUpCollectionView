@@ -1,0 +1,6 @@
+framework module PopUpCollectionView {
+  umbrella header "PopUpCollectionView-umbrella.h"
+
+  export *
+  module * { export * }
+}

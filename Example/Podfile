@@ -3,10 +3,12 @@ use_frameworks!
 
 target 'PopUpCollectionView_Example', :exclusive => true do
   pod 'PopUpCollectionView', :path => '../'
+  pod 'FLAnimatedImage'
 end
 
 target 'PopUpCollectionView_Tests', :exclusive => true do
   pod 'PopUpCollectionView', :path => '../'
+  pod 'FLAnimatedImage'
 
   pod 'Quick', '~> 0.8'
   pod 'Nimble', '~> 3.0'
