@@ -84,11 +84,13 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "Pods-PopUpCollectionView_Tests/FLAnimatedImage.framework"
   install_framework "Pods-PopUpCollectionView_Tests/PopUpCollectionView.framework"
   install_framework "Pods-PopUpCollectionView_Tests/Nimble.framework"
   install_framework "Pods-PopUpCollectionView_Tests/Quick.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "Pods-PopUpCollectionView_Tests/FLAnimatedImage.framework"
   install_framework "Pods-PopUpCollectionView_Tests/PopUpCollectionView.framework"
   install_framework "Pods-PopUpCollectionView_Tests/Nimble.framework"
   install_framework "Pods-PopUpCollectionView_Tests/Quick.framework"
