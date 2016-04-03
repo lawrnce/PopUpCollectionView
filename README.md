@@ -8,8 +8,9 @@
 Pop-Up Collection View is a replacement for the traditional
 navigation collection view style and is written in Swift 2.0.
 
-
+<!---
 [![CI Status](http://img.shields.io/travis/Lawrence Tran/PopUpCollectionView.svg?style=flat)](https://travis-ci.org/Lawrence Tran/PopUpCollectionView)
+-->
 [![Version](https://img.shields.io/cocoapods/v/PopUpCollectionView.svg?style=flat)](http://cocoapods.org/pods/PopUpCollectionView)
 [![License](https://img.shields.io/cocoapods/l/PopUpCollectionView.svg?style=flat)](http://cocoapods.org/pods/PopUpCollectionView)
 [![Platform](https://img.shields.io/cocoapods/p/PopUpCollectionView.svg?style=flat)](http://cocoapods.org/pods/PopUpCollectionView)
