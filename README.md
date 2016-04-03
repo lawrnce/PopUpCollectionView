@@ -112,4 +112,4 @@ Lawrence Tran
 
 ## License
 
-PopUpCollectionView is available under the MIT license. See the LICENSE file for more info.
+See the LICENSE file for more info.
