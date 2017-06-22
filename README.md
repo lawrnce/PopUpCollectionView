@@ -6,7 +6,7 @@
 </p>
 
 Pop-Up Collection View is a replacement for the traditional
-navigation collection view style and is written in Swift 2.0.
+navigation collection view style and is written in Swift.
 
 <!---
 [![CI Status](http://img.shields.io/travis/Lawrence Tran/PopUpCollectionView.svg?style=flat)](https://travis-ci.org/Lawrence Tran/PopUpCollectionView)
@@ -92,8 +92,8 @@ Note, this does not work with an UIImage extension such as [SwiftGif](https://gi
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
 ## Requirements
-* Swift 2.0+
-* iOS 8.0+
+* Swift 3.0+
+* iOS 9.0+
 
 ## Installation
 
