@@ -14,9 +14,9 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var popUpCollectionView: PopUpCollectionView!
     
-    private var shouldHideStatusBar: Bool = false
+    fileprivate var shouldHideStatusBar: Bool = false
     
-    private var demoData: [FLAnimatedImage]!
+    fileprivate var demoData: [FLAnimatedImage]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,9 +28,9 @@ class ViewController: UIViewController {
         
         // setup demo data
         for index in 0...10 {
-            let gifPath = NSBundle.mainBundle().URLForResource("\(index)", withExtension: "gif")
-            let data = NSData(contentsOfURL: gifPath!)
-            let gif = FLAnimatedImage(GIFData: data!)
+            let gifPath = Bundle.main.url(forResource: "\(index)", withExtension: "gif")
+            let data = try? Data(contentsOf: gifPath!)
+            let gif = FLAnimatedImage(gifData: data!)
             self.demoData.append(gif!)
             self.popUpCollectionView.reloadData()
         }
@@ -41,44 +41,44 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return self.shouldHideStatusBar
     }
 }
 
 extension ViewController: PopUpCollectionViewDataSource {
     
-    func popUpCollectionView(popUpCollectionView: PopUpCollectionView, numberOfItemsInSection section: Int) -> Int {
+    func popUpCollectionView(_ popUpCollectionView: PopUpCollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.demoData.count
     }
     
-    func popUpCollectionView(popUpCollectionView: PopUpCollectionView, contentViewAtIndexPath indexPath: NSIndexPath) -> UIView {
-        let animatedImageView = FLAnimatedImageView(frame: CGRectZero)
-        animatedImageView.contentMode = .ScaleAspectFill
+    func popUpCollectionView(_ popUpCollectionView: PopUpCollectionView, contentViewAtIndexPath indexPath: IndexPath) -> UIView {
+        let animatedImageView = FLAnimatedImageView(frame: CGRect.zero)
+        animatedImageView.contentMode = .scaleAspectFill
         animatedImageView.animatedImage = self.demoData[indexPath.row]
         animatedImageView.sizeToFit()
         animatedImageView.startAnimating()
         return animatedImageView
     }
     
-    func popUpCollectionView(popUpCollectionView: PopUpCollectionView, infoViewForItemAtIndexPath indexPath: NSIndexPath) -> UIView {
-        let label = UILabel(frame: CGRectZero)
-        label.textAlignment = .Center
-        label.baselineAdjustment = .AlignCenters
+    func popUpCollectionView(_ popUpCollectionView: PopUpCollectionView, infoViewForItemAtIndexPath indexPath: IndexPath) -> UIView {
+        let label = UILabel(frame: CGRect.zero)
+        label.textAlignment = .center
+        label.baselineAdjustment = .alignCenters
         label.text = "Info for \(indexPath.row)"
         label.font = UIFont(name: "Avenir", size: 24.0)
-        label.frame = CGRect(x: 0, y: 0, width: UIScreen.mainScreen().bounds.width, height: 100)
+        label.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 100)
         return label
     }
 }
 
 extension ViewController: PopUpCollectionViewDelegate {
     
-    func popUpCollectionView(popUpCollectionView: PopUpCollectionView, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    func popUpCollectionView(_ popUpCollectionView: PopUpCollectionView, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         return self.demoData[indexPath.row].size
     }
     
-    func setStatusBarHidden(hidden: Bool) {
+    func setStatusBarHidden(_ hidden: Bool) {
         self.shouldHideStatusBar = hidden
         setNeedsStatusBarAppearanceUpdate()
     }

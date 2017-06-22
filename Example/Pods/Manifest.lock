@@ -1,23 +1,19 @@
 PODS:
   - FLAnimatedImage (1.0.12)
-  - Nimble (3.2.0)
-  - PopUpCollectionView (0.1.0)
-  - Quick (0.9.1)
+  - PopUpCollectionView (0.2.0)
 
 DEPENDENCIES:
   - FLAnimatedImage
-  - Nimble (~> 3.0)
   - PopUpCollectionView (from `../`)
-  - Quick (~> 0.8)
 
 EXTERNAL SOURCES:
   PopUpCollectionView:
-    :path: ../
+    :path: "../"
 
 SPEC CHECKSUMS:
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
-  Nimble: 703854335d181df169bbca9c97117b5cf8c47c1d
-  PopUpCollectionView: 0ce9f65773f03261906496f37a45de493da911ee
-  Quick: a5221fc21788b6aeda934805e68b061839bc3165
+  PopUpCollectionView: 9340d2654f9e072105e2ac51862def68c49056b7
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: 80ce45264f34a8fdaa6674bd5e9856eb92520412
+
+COCOAPODS: 1.2.1
