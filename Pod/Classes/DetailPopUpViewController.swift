@@ -14,17 +14,17 @@ protocol DetailPopUpViewControllerDelegate {
     //  Notifies the delegate that the detail view has finished its closing animation.
     //
     //
-    func detailPopUpViewController(detailPopUpViewController: DetailPopUpViewController, didEndClose animated: Bool)
+    func detailPopUpViewController(_ detailPopUpViewController: DetailPopUpViewController, didEndClose animated: Bool)
     
     //  Returns the content view to the Pop Up Collection View.
     //
     //
-    func detailPopUpViewController(detailPopUpViewController: DetailPopUpViewController, returnContentView contentView: UIView, forIndexPath indexPath: NSIndexPath)
+    func detailPopUpViewController(_ detailPopUpViewController: DetailPopUpViewController, returnContentView contentView: UIView, forIndexPath indexPath: IndexPath)
     
     //  Notifies the delegate of a status bar change.
     //
     //
-    func setStatusBarHidden(hidden: Bool, animated: Bool)
+    func setStatusBarHidden(_ hidden: Bool, animated: Bool)
 }
 
 // MARK: - DATA SOURCE
@@ -33,27 +33,27 @@ protocol DetailPopUpViewControllerDatasource {
     //  Asks the data source for the number of items in the PopUp Collection View.
     //  Only one section is used internally as each cell is full screen.
     //
-    func detailPopUpViewController(detailPopUpViewController: DetailPopUpViewController, numberOfItemsInSection section:Int) -> Int
+    func detailPopUpViewController(_ detailPopUpViewController: DetailPopUpViewController, numberOfItemsInSection section:Int) -> Int
     
     //  Borrows the selected cell view from the PopUp Collection View.
     //
     //
-    func detailPopUpViewController(detailPopUpViewController: DetailPopUpViewController, contentViewAtIndexPath indexPath: NSIndexPath) -> UIView
+    func detailPopUpViewController(_ detailPopUpViewController: DetailPopUpViewController, contentViewAtIndexPath indexPath: IndexPath) -> UIView
     
     //  Asks the data source for the info view of a cell.
     //
     //
-    func detailPopUpViewController(detailPopUpViewController: DetailPopUpViewController, infoViewAtIndexPath indexPath: NSIndexPath) -> UIView
+    func detailPopUpViewController(_ detailPopUpViewController: DetailPopUpViewController, infoViewAtIndexPath indexPath: IndexPath) -> UIView
     
     //  Asks the Pop Up Collection View for the position of the current cell to return.
     //
     //
-    func detailPopUpViewController(detailPopUpViewController: DetailPopUpViewController, willCloseAtIndexPath indexPath: NSIndexPath) -> CGPoint
+    func detailPopUpViewController(_ detailPopUpViewController: DetailPopUpViewController, willCloseAtIndexPath indexPath: IndexPath) -> CGPoint
     
     //
     //
     //
-    func detailPopUpViewController(detailPopUpViewController: DetailPopUpViewController, expandedOriginForIndexPath indexPath: NSIndexPath) -> CGPoint
+    func detailPopUpViewController(_ detailPopUpViewController: DetailPopUpViewController, expandedOriginForIndexPath indexPath: IndexPath) -> CGPoint
 }
 
 class DetailPopUpViewController: UIViewController {
@@ -63,10 +63,10 @@ class DetailPopUpViewController: UIViewController {
     //  Setting the presenting index path sets the detail collection to the same index.
     //
     //
-    var presentingIndexPath: NSIndexPath! {
+    var presentingIndexPath: IndexPath! {
         didSet {
             if (self.collectionView != nil) {
-                self.collectionView.scrollToItemAtIndexPath(self.presentingIndexPath, atScrollPosition: .CenteredHorizontally, animated: false)
+                self.collectionView.scrollToItem(at: self.presentingIndexPath, at: .centeredHorizontally, animated: false)
             }
             
         }
@@ -87,7 +87,7 @@ class DetailPopUpViewController: UIViewController {
     //  Sets the alpha of the current cell's info view.
     //  This is used to make pretty transitions.
     //
-    func setPresentingDetailInfoViewAlpha(alpha: CGFloat) {
+    func setPresentingDetailInfoViewAlpha(_ alpha: CGFloat) {
         if let cell = getCurrentCell() {
             cell.infoScrollView.alpha = alpha
         }
@@ -96,33 +96,33 @@ class DetailPopUpViewController: UIViewController {
     //  Handles closing animation
     //
     //
-    func handleDrag(gestureRecognizer: UIPanGestureRecognizer) {
+    func handleDrag(_ gestureRecognizer: UIPanGestureRecognizer) {
         
         // Static parameters for each gesture instance
         struct ClosingParameters {
             static var cell: DetailPopUpCollectionViewCell!
-            static var cellIndexPath: NSIndexPath!
-            static var endPoint: CGPoint = CGPointZero
+            static var cellIndexPath: IndexPath!
+            static var endPoint: CGPoint = CGPoint.zero
             static var distance: Float = 0.0
             static var progress: CGFloat = 0.0
             static var shouldShowStatusBar: Bool = false
         }
         
         // Dragging down
-        if gestureRecognizer.translationInView(self.view).y != 0 {
+        if gestureRecognizer.translation(in: self.view).y != 0 {
             
-            let translationY = Float(gestureRecognizer.translationInView(self.view).y)
+            let translationY = Float(gestureRecognizer.translation(in: self.view).y)
             
             switch (gestureRecognizer.state) {
                 
-            case .Changed:
+            case .changed:
                 
                 // Set initial parameters for new gesture
                 if (ClosingParameters.cell == nil || ClosingParameters.cellIndexPath == nil) {
                     if let cell = getCurrentCell() {
                         
                         ClosingParameters.cell = cell
-                        ClosingParameters.cellIndexPath = self.collectionView.indexPathForCell(cell)
+                        ClosingParameters.cellIndexPath = self.collectionView.indexPath(for: cell)
                         
                         // Get destination point
                         if let point = self.dataSource?.detailPopUpViewController(self, willCloseAtIndexPath: ClosingParameters.cellIndexPath) {
@@ -151,17 +151,17 @@ class DetailPopUpViewController: UIViewController {
                 
                 // Set Scale
                 let scale = min(1.0 - 0.5 * ClosingParameters.progress, 1.0)
-                self.view.transform = CGAffineTransformScale(CGAffineTransformIdentity, scale, scale)
+                self.view.transform = CGAffineTransform.identity.scaledBy(x: scale, y: scale)
                 
                 // Set translation
                 let xOffset = max(ClosingParameters.endPoint.x * ClosingParameters.progress, 0.0)
                 let yOffset = max(ClosingParameters.endPoint.y * ClosingParameters.progress, 0.0)
-                self.view.frame = CGRectMake(xOffset, yOffset, self.view.frame.width, self.view.frame.height)
+                self.view.frame = CGRect(x: xOffset, y: yOffset, width: self.view.frame.width, height: self.view.frame.height)
                 
                 // Set info view alpha
                 ClosingParameters.cell.infoScrollView.alpha = 1 - ClosingParameters.progress
                 
-            case .Ended:
+            case .ended:
                 
                 // Force close
                 if (ClosingParameters.progress > 0.3) {
@@ -176,7 +176,7 @@ class DetailPopUpViewController: UIViewController {
                 // Clear Closing Parameters
                 ClosingParameters.cell = nil
                 ClosingParameters.cellIndexPath = nil
-                ClosingParameters.endPoint = CGPointZero
+                ClosingParameters.endPoint = CGPoint.zero
                 ClosingParameters.distance = 0.0
                 ClosingParameters.progress = 0.0
                 
@@ -193,49 +193,49 @@ class DetailPopUpViewController: UIViewController {
     //  Collection view that displays the content.
     //
     //
-    private var collectionView: UICollectionView!
+    fileprivate var collectionView: UICollectionView!
     
     //  Basic flow layout for full screen cells.
     //
     //
-    private var flowLayout: UICollectionViewFlowLayout!
+    fileprivate var flowLayout: UICollectionViewFlowLayout!
     
     // MARK: - PRIVATE METHODS
     
     //  Add a pan gesture recognizer for closing.
     //
     //
-    private func setupPanGestureRecognizer() {
-        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: Selector("handleDrag:"))
+    fileprivate func setupPanGestureRecognizer() {
+        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(DetailPopUpViewController.handleDrag(_:)))
         self.view.addGestureRecognizer(panGestureRecognizer)
     }
     
     //  Init the collection view
     //
     //
-    private func setupCollectionView() {
+    fileprivate func setupCollectionView() {
         self.flowLayout = UICollectionViewFlowLayout()
         self.flowLayout.minimumInteritemSpacing = 0.0
         self.flowLayout.minimumLineSpacing = 0.0
-        self.flowLayout.itemSize = UIScreen.mainScreen().bounds.size
-        self.flowLayout.scrollDirection = .Horizontal
-        self.collectionView = UICollectionView(frame: UIScreen.mainScreen().bounds, collectionViewLayout: self.flowLayout)
-        self.collectionView.backgroundColor = UIColor.clearColor()
-        self.collectionView.contentInset = UIEdgeInsetsZero
+        self.flowLayout.itemSize = UIScreen.main.bounds.size
+        self.flowLayout.scrollDirection = .horizontal
+        self.collectionView = UICollectionView(frame: UIScreen.main.bounds, collectionViewLayout: self.flowLayout)
+        self.collectionView.backgroundColor = UIColor.clear
+        self.collectionView.contentInset = UIEdgeInsets.zero
         self.collectionView.dataSource = self
         self.collectionView.showsHorizontalScrollIndicator = false
         self.collectionView.showsVerticalScrollIndicator = false
         self.collectionView.bounces = false
-        self.collectionView.pagingEnabled = true
-        self.collectionView.registerClass(DetailPopUpCollectionViewCell.self, forCellWithReuseIdentifier: DetailPopUpCollectionViewCellReuseIdentifier)
+        self.collectionView.isPagingEnabled = true
+        self.collectionView.register(DetailPopUpCollectionViewCell.self, forCellWithReuseIdentifier: DetailPopUpCollectionViewCellReuseIdentifier)
         self.view.addSubview(self.collectionView)
     }
     
     //  Calculates the distance between the origin of the window to the origin
     //  of the destination cell in the Pop Up Collection View.
     //
-    private func getDistanceToDestinationFrame(destinationPoint: CGPoint) -> Float {
-        let p1 = self.dataSource?.detailPopUpViewController(self, expandedOriginForIndexPath: NSIndexPath())
+    fileprivate func getDistanceToDestinationFrame(_ destinationPoint: CGPoint) -> Float {
+        let p1 = self.dataSource?.detailPopUpViewController(self, expandedOriginForIndexPath: IndexPath())
         let p2 = destinationPoint
         return Float(hypot(p1!.x - p2.x, p1!.y - p2.y))
     }
@@ -243,36 +243,36 @@ class DetailPopUpViewController: UIViewController {
     //  Cancels closing and animates back to presenting state.
     //
     //
-    private func cancelClose(cell: DetailPopUpCollectionViewCell) {
-        UIView.animateWithDuration(0.18, animations: { () -> Void in
-            self.view.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.0, 1.0)
-            self.view.frame = UIScreen.mainScreen().bounds
+    fileprivate func cancelClose(_ cell: DetailPopUpCollectionViewCell) {
+        UIView.animate(withDuration: 0.18, animations: { () -> Void in
+            self.view.transform = CGAffineTransform.identity.scaledBy(x: 1.0, y: 1.0)
+            self.view.frame = UIScreen.main.bounds
             cell.infoScrollView.alpha = 1.0
-            }) { (done) -> Void in
-        }
+            }, completion: { (done) -> Void in
+        }) 
     }
     
     //  Close the Detail View Controller.
     //
     //
-    private func forceClose(endPoint: CGPoint, forCell cell: DetailPopUpCollectionViewCell) {
-        UIView.animateWithDuration(0.12, animations: { () -> Void in
-            self.view.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.5, 0.5)
-            self.view.frame = CGRectMake(endPoint.x, endPoint.y, self.view.frame.width, self.view.frame.height)
+    fileprivate func forceClose(_ endPoint: CGPoint, forCell cell: DetailPopUpCollectionViewCell) {
+        UIView.animate(withDuration: 0.12, animations: { () -> Void in
+            self.view.transform = CGAffineTransform.identity.scaledBy(x: 0.5, y: 0.5)
+            self.view.frame = CGRect(x: endPoint.x, y: endPoint.y, width: self.view.frame.width, height: self.view.frame.height)
             cell.infoScrollView.alpha = 0.0
-            }) { (done) -> Void in
-                self.delegate?.detailPopUpViewController(self, returnContentView: cell.detailContentView, forIndexPath: cell.indexPath)
+            }, completion: { (done) -> Void in
+                self.delegate?.detailPopUpViewController(self, returnContentView: cell.detailContentView, forIndexPath: cell.indexPath as IndexPath)
                 self.delegate?.detailPopUpViewController(self, didEndClose: true)
                 self.view.removeFromSuperview()
                 self.removeFromParentViewController()
-        }
+        }) 
     }
 
     //  Gets the current visible cell.
     //
     //
-    private func getCurrentCell() -> DetailPopUpCollectionViewCell? {
-        for cell in self.collectionView.visibleCells() {
+    fileprivate func getCurrentCell() -> DetailPopUpCollectionViewCell? {
+        for cell in self.collectionView.visibleCells {
             return cell as? DetailPopUpCollectionViewCell
         }
         return nil
@@ -281,9 +281,9 @@ class DetailPopUpViewController: UIViewController {
     //  Gets the current index for visible cell.
     //
     //
-    private func getCurrentCellIndexPath() -> NSIndexPath? {
-        for cell in self.collectionView.visibleCells() {
-            return self.collectionView.indexPathForCell(cell)!
+    fileprivate func getCurrentCellIndexPath() -> IndexPath? {
+        for cell in self.collectionView.visibleCells {
+            return self.collectionView.indexPath(for: cell)!
         }
         return nil
     }
@@ -291,8 +291,8 @@ class DetailPopUpViewController: UIViewController {
     //  When closing there will be one reusable collection view cell left.
     //  Force a dequeue to call prepareForReuse on that remaining cell.
     //
-    private func returnLingeringContentView(indexPath: NSIndexPath) {
-        self.collectionView.dequeueReusableCellWithReuseIdentifier(DetailPopUpCollectionViewCellReuseIdentifier, forIndexPath: indexPath)
+    fileprivate func returnLingeringContentView(_ indexPath: IndexPath) {
+        self.collectionView.dequeueReusableCell(withReuseIdentifier: DetailPopUpCollectionViewCellReuseIdentifier, for: indexPath)
     }
 
     override func viewDidLoad() {
@@ -301,7 +301,7 @@ class DetailPopUpViewController: UIViewController {
         setupPanGestureRecognizer()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.collectionView.reloadData()
     }
@@ -316,15 +316,15 @@ extension DetailPopUpViewController: UICollectionViewDataSource {
     //  Asks the data source for the number of items.
     //
     //
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return (self.dataSource?.detailPopUpViewController(self, numberOfItemsInSection: section))!
     }
     
     //  Asks the data source for the content and info views.
     //  Ads them into a detail cell.
     //
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(DetailPopUpCollectionViewCellReuseIdentifier, forIndexPath: indexPath) as! DetailPopUpCollectionViewCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailPopUpCollectionViewCellReuseIdentifier, for: indexPath) as! DetailPopUpCollectionViewCell
         cell.delegate = self
         let contentView = self.dataSource?.detailPopUpViewController(self, contentViewAtIndexPath: indexPath)
         let infoView = self.dataSource?.detailPopUpViewController(self, infoViewAtIndexPath: indexPath)
@@ -339,7 +339,7 @@ extension DetailPopUpViewController: DetailPopUpCollectionViewCellDelegate {
     //  Sends the returning content view to the Pop Up Collection View.
     //  This ensures consistent animation.
     //
-    func detailPopUpCollectionViewCell(cell: DetailPopUpCollectionViewCell, returnContentView contentView: UIView, forIndexPath indexPath: NSIndexPath) {
+    func detailPopUpCollectionViewCell(_ cell: DetailPopUpCollectionViewCell, returnContentView contentView: UIView, forIndexPath indexPath: IndexPath) {
         self.delegate?.detailPopUpViewController(self, returnContentView: contentView, forIndexPath: indexPath)
     }
 }

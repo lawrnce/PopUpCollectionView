@@ -22,7 +22,7 @@ class PopUpCollectionViewCell: UICollectionViewCell {
     //  Adds the content view to the cell
     //  adjusts layout accordingly
     //
-    func setContentView(contentView: UIView) {
+    func setContentView(_ contentView: UIView) {
         self.view = contentView
         self.view.frame.size = self.frame.size
         self.addSubview(self.view)
@@ -49,9 +49,9 @@ class PopUpCollectionViewCell: UICollectionViewCell {
         setup()
     }
     
-    private func setup() {
-        self.backgroundColor = UIColor.clearColor()
+    fileprivate func setup() {
+        self.backgroundColor = UIColor.clear
         self.clipsToBounds = true
-        self.contentMode = .ScaleAspectFill
+        self.contentMode = .scaleAspectFill
     }
 }

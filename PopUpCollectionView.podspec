@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "PopUpCollectionView"
-  s.version          = "0.1.0"
+  s.version          = "0.2.0"
   s.summary          = "A rethinking of the traditional collection view."
 
 # This description is used to generate tags and improve search results.
@@ -27,7 +27,7 @@ Pop-Up Collection View is a redesign of a collection view with a vertical focus.
   s.source           = { :git => "https://github.com/lawrnce/PopUpCollectionView.git", :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.platform     = :ios, '8.0'
+  s.platform     = :ios, '9.0'
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes/**/*'

@@ -16,7 +16,7 @@ let DetailPopUpCollectionViewCellReuseIdentifier = "DetailPopUpCollectionViewCel
 //
 //
 protocol DetailPopUpCollectionViewCellDelegate {
-    func detailPopUpCollectionViewCell(cell: DetailPopUpCollectionViewCell, returnContentView contentView: UIView, forIndexPath indexPath: NSIndexPath)
+    func detailPopUpCollectionViewCell(_ cell: DetailPopUpCollectionViewCell, returnContentView contentView: UIView, forIndexPath indexPath: IndexPath)
 }
 
 class DetailPopUpCollectionViewCell: UICollectionViewCell {
@@ -42,22 +42,22 @@ class DetailPopUpCollectionViewCell: UICollectionViewCell {
     //  Keep track of the content view's index path
     //  to return to the delegate
     //
-    var indexPath: NSIndexPath!
+    var indexPath: IndexPath!
     
     // MARK: - PUBLIC METHODS
     
     //  Use this to set the content view.
     //  Cell will readjust aspect ratios accordingly.
     //
-    func setContentView(contentView: UIView, withInfoView infoView: UIView) {
+    func setContentView(_ contentView: UIView, withInfoView infoView: UIView) {
         self.detailContentView = contentView
         self.detailContentView.frame = CGRect(x: 0, y: 0,
-            width: UIScreen.mainScreen().bounds.width,
-            height: contentView.frame.height * UIScreen.mainScreen().bounds.width / contentView.frame.width)
+            width: UIScreen.main.bounds.width,
+            height: contentView.frame.height * UIScreen.main.bounds.width / contentView.frame.width)
         self.infoScrollView = UIScrollView(frame: CGRect(x: 0, y: self.detailContentView.frame.height,
-            width: UIScreen.mainScreen().bounds.width,
-            height: UIScreen.mainScreen().bounds.height - self.detailContentView.frame.height))
-        self.infoScrollView.backgroundColor = UIColor.whiteColor()
+            width: UIScreen.main.bounds.width,
+            height: UIScreen.main.bounds.height - self.detailContentView.frame.height))
+        self.infoScrollView.backgroundColor = UIColor.white
         self.addSubview(self.infoScrollView)
         self.addSubview(detailContentView)
         self.infoScrollView.addSubview(infoView)
@@ -86,7 +86,7 @@ class DetailPopUpCollectionViewCell: UICollectionViewCell {
         setup()
     }
     
-    private func setup() {
-        self.backgroundColor = UIColor.clearColor()
+    fileprivate func setup() {
+        self.backgroundColor = UIColor.clear
     }
 }
