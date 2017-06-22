@@ -31,9 +31,9 @@ Pop-Up Collection View is a redesign of a collection view with a vertical focus.
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes/**/*'
-  s.resource_bundles = {
-    'PopUpCollectionView' => ['Pod/Assets/*.png']
-  }
+  # s.resource_bundles = {
+  #   'PopUpCollectionView' => ['Pod/Assets/*.png']
+  # }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
